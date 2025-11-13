@@ -4,13 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lungs AR Viewer</title>
-
-    <!-- model-viewer -->
     <script
       type="module"
       src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
     ></script>
-
     <style>
       body {
         margin: 0;
@@ -23,14 +20,12 @@
         height: 100vh;
         overflow: hidden;
       }
-
       header,
       footer {
         background-color: #111;
         padding: 15px;
         z-index: 2;
       }
-
       button {
         background-color: #007bff;
         color: white;
@@ -42,20 +37,16 @@
         margin: 8px 5px;
         transition: 0.3s;
       }
-
       button:hover {
         background-color: #0099ff;
         transform: scale(1.05);
         box-shadow: 0 0 8px #00aaff;
       }
-
       model-viewer {
         flex-grow: 1;
         width: 100%;
         background-color: #000;
       }
-
-      /* hotspot styling */
       .hotspot {
         background: rgba(0, 194, 255, 0.9);
         border-radius: 50%;
@@ -64,8 +55,6 @@
         cursor: pointer;
         box-shadow: 0 0 8px #00aaff;
       }
-
-      /* popup text */
       .popup {
         position: absolute;
         top: 50%;
@@ -94,17 +83,17 @@
       </div>
     </header>
 
+    <div id="popup" class="popup"></div>
 
-  <model-viewer
+    <model-viewer
       id="earth"
       src="https://rozyar005.github.io/test-/lungs.glb"
       ar
       ar-modes="webxr scene-viewer quick-look"
       camera-controls
       exposure="1"
-      alt="Earth model cross-section"
+      alt="Lung model"
     >
-      <!-- Hotspots: adjust data-position as needed -->
       <button
         class="hotspot"
         slot="hotspot-crust"
@@ -121,12 +110,15 @@
 
     <script>
       const popup = document.getElementById("popup");
+      const narration = document.getElementById("narration");
+      const playBtn = document.getElementById("playBtn");
+      const pauseBtn = document.getElementById("pauseBtn");
       const hotspotButtons = document.querySelectorAll("button.hotspot");
 
       // Popup content for each layer
       const layerContent = {
         lungs:
-          "<b>Lungs:</b> When you breathe your heart and lungs work together.",
+          "<b>Lungs:</b> When you breathe, your heart and lungs work together.",
       };
 
       hotspotButtons.forEach((btn) => {
@@ -138,7 +130,6 @@
         });
       });
 
-      // Clicking outside closes popup
       document.addEventListener("click", (event) => {
         if (
           event.target.classList.contains("hotspot") ||
@@ -149,9 +140,15 @@
           return;
         popup.style.display = "none";
       });
-    </script>
-  </body>
-</html>
 
+      playBtn.addEventListener("click", function (event) {
+        narration.play();
+        event.stopPropagation();
+      });
+      pauseBtn.addEventListener("click", function (event) {
+        narration.pause();
+        event.stopPropagation();
+      });
+    </script>
   </body>
 </html>
