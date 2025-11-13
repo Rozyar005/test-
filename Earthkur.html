@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Earth Layers 3D Viewer</title>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <style>
+      body {
+        margin: 0;
+        background-color: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+      header,
+      footer {
+        background-color: #111;
+        padding: 15px;
+        z-index: 2;
+      }
+      button.hotspot {
+        background: rgba(0, 194, 255, 0.9);
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        box-shadow: 0 0 8px #00aaff;
+        border: none;
+      }
+      button.hotspot:focus {
+        outline: 2px solid #fff;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 8px 5px;
+        transition: 0.3s;
+      }
+      button:hover {
+        background-color: #0099ff;
+        transform: scale(1.05);
+        box-shadow: 0 0 8px #00aaff;
+      }
+
+      .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.87);
+        padding: 18px 28px;
+        border-radius: 12px;
+        font-size: 1.15rem;
+        border: 1px solid #00c2ff;
+        display: none;
+        z-index: 5;
+      }
+      model-viewer {
+        flex-grow: 1;
+        width: 100%;
+        background-color: #000;
+        min-height: 70vh;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h2>دەتوانیت زەوی لە کامێراکەتەوە ببینیت</h2>
+    </header>
+    <audio
+      id="narration"
+      src="https://rozyar005.github.io/test-/Earthkur.mp3"
+    ></audio>
+    <button id="playBtn">🔊 دەستپێکردن</button>
+    <button id="pauseBtn">⏸️ ڕاوەستان</button>
+
+    <div id="popup" class="popup"></div>
+
+    <model-viewer
+      id="earth"
+      src="https://rozyar005.github.io/test-/earth_core_v2.glb"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      exposure="1"
+      alt="Earth model cross-section"
+    >
+      <!-- Hotspots: adjust data-position as needed -->
+      <button
+        class="hotspot"
+        slot="hotspot-crust"
+        data-position="0 1 -0.1"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-layer="Crust"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-mantle"
+        data-position="0 0.9 0.2"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-layer="Mantle"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-outercore"
+        data-position="0 0.1 0.7"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-layer="Outer Core"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-innercore"
+        data-position="0 0.1 1.1"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-layer="Inner Core"
+      ></button>
+    </model-viewer>
+
+    <footer>
+      <p>
+        © هەموو مافێکی ئەم بەرهەمە پارێزراوە بە تیمی ڕۆزیار - ڕۆی - ئەیمەن ٢٠٢٥
+      </p>
+    </footer>
+
+    <script>
+      const popup = document.getElementById("popup");
+      const hotspotButtons = document.querySelectorAll("button.hotspot");
+
+      // Popup content for each layer
+      const layerContent = {
+        Crust: "<b>توێکڵی زەوی</b>",
+        Mantle: "<b>پۆشەر</b> ",
+        "Outer Core": "<b>كڕۆکی دەرەوە</b>",
+        "Inner Core": "<b>کڕۆکی ناوەوە</b>",
+      };
+
+      hotspotButtons.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          const layer = btn.getAttribute("data-layer");
+          popup.innerHTML = layerContent[layer];
+          popup.style.display = "block";
+          event.stopPropagation();
+        });
+      });
+
+      // Clicking outside closes popup
+      document.addEventListener("click", (event) => {
+        if (
+          event.target.classList.contains("hotspot") ||
+          event.target.closest("header") ||
+          event.target.closest("footer") ||
+          event.target.closest(".popup")
+        )
+          return;
+        popup.style.display = "none";
+      });
+      const narration = document.getElementById("narration");
+      const playBtn = document.getElementById("playBtn");
+      const pauseBtn = document.getElementById("pauseBtn");
+
+      playBtn.addEventListener("click", (event) => {
+        narration.play();
+        event.stopPropagation();
+      });
+
+      pauseBtn.addEventListener("click", (event) => {
+        narration.pause();
+        event.stopPropagation();
+      });
+
+      hotspotButtons.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          const layer = btn.getAttribute("data-layer");
+          popup.innerHTML = layerContent[layer];
+          popup.style.display = "block";
+          narration.play();
+          event.stopPropagation();
+        });
+      });
+    </script>
+  </body>
+</html>
