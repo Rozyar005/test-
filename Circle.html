@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Circle Fossil AR Viewer</title>
+
+    <!-- model-viewer -->
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+
+    <style>
+      body {
+        margin: 0;
+        background-color: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      header,
+      footer {
+        background-color: #111;
+        padding: 15px;
+        z-index: 2;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 8px 5px;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background-color: #0099ff;
+        transform: scale(1.05);
+        box-shadow: 0 0 8px #00aaff;
+      }
+
+      model-viewer {
+        flex-grow: 1;
+        width: 100%;
+        background-color: #000;
+      }
+
+      /* hotspot styling */
+      .hotspot {
+        background: rgba(0, 194, 255, 0.9);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        box-shadow: 0 0 8px #00aaff;
+      }
+
+      /* popup text */
+      .popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px 30px;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        border: 1px solid #00c2ff;
+        display: none;
+        z-index: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h2>Tap “View in your space” to see the Circular Fossil in AR</h2>
+      <audio
+        id="narration"
+        src="https://rozyar005.github.io/test-/Circle.mp3"
+      ></audio>
+      <div>
+        <button id="playBtn">🔊 Play Narration</button>
+        <button id="pauseBtn">⏸️ Pause</button>
+      </div>
+    </header>
+
+    <div id="popup" class="popup">
+      "Ammonoids are a type of shellfish that lived long ago. The largest found
+      so far was dug up in Germany. Its spiral shell is almost 2 meters across."
+    </div>
+
+    <model-viewer
+      id="dino"
+      src="https://rozyar005.github.io/test-/trilobite_hamatolenus_myopsolenus_sp.glb"
+      alt="Circular Fossil"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      auto-rotate
+      exposure="1"
+    >
+      <!-- hotspot -->
+      <button
+        class="hotspot"
+        slot="hotspot-head"
+        data-position="0 1 11"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+      ></button>
+    </model-viewer>
+
+    <footer>
+      <p>© All rights reserved to the team of RAR — Rozyar Ayman Rozi 2025</p>
+    </footer>
+
+    <script>
+      const hotspot = document.querySelector(".hotspot");
+      const popup = document.getElementById("popup");
+      const narration = document.getElementById("narration");
+      const playBtn = document.getElementById("playBtn");
+      const pauseBtn = document.getElementById("pauseBtn");
+
+      // When hotspot is clicked — show popup and play narration
+      hotspot.addEventListener("click", (event) => {
+        popup.style.display = "block";
+        narration.play();
+        event.stopPropagation(); // prevent document click from closing it
+      });
+
+      // Hide popup when clicking anywhere outside of it or the header/footer
+      document.addEventListener("click", (event) => {
+        // Ignore clicks on header, footer, buttons, or the popup itself
+        if (
+          event.target.closest("header") ||
+          event.target.closest("footer") ||
+          event.target.classList.contains("hotspot") ||
+          event.target.closest(".popup")
+        ) {
+          return;
+        }
+        popup.style.display = "none";
+        narration.pause();
+      });
+
+      // Manual play/pause buttons
+      playBtn.addEventListener("click", (event) => {
+        narration.play();
+        event.stopPropagation(); // don't trigger document click
+      });
+
+      pauseBtn.addEventListener("click", (event) => {
+        narration.pause();
+        event.stopPropagation();
+      });
+    </script>
+  </body>
+</html>
