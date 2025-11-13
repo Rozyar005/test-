@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lungs AR Viewer</title>
+
+    <!-- model-viewer -->
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+
+    <style>
+      body {
+        margin: 0;
+        background-color: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      header,
+      footer {
+        background-color: #111;
+        padding: 15px;
+        z-index: 2;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 8px 5px;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background-color: #0099ff;
+        transform: scale(1.05);
+        box-shadow: 0 0 8px #00aaff;
+      }
+
+      model-viewer {
+        flex-grow: 1;
+        width: 100%;
+        background-color: #000;
+      }
+
+      /* hotspot styling */
+      .hotspot {
+        background: rgba(0, 194, 255, 0.9);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        box-shadow: 0 0 8px #00aaff;
+      }
+
+      /* popup text */
+      .popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px 30px;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        border: 1px solid #00c2ff;
+        display: none;
+        z-index: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h2>Tap “View in your space” to see the Sharks in AR</h2>
+      <audio
+        id="narration"
+        src="https://rozyar005.github.io/test-/Sharks.mp3"
+      ></audio>
+      <div>
+        <button id="playBtn">🔊 Play Narration</button>
+        <button id="pauseBtn">⏸️ Pause</button>
+      </div>
+    </header>
+
+
+  <model-viewer
+      id="earth"
+      src="https://rozyar005.github.io/test-/shark.glb"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      exposure="1"
+      alt="Earth model cross-section"
+    >
+      <!-- Hotspots: adjust data-position as needed -->
+      <button
+        class="hotspot"
+        slot="hotspot-crust"
+        data-position="0  0 0"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-layer="lungs"
+      ></button>
+    </model-viewer>
+
+    <footer>
+      <p>© All rights reserved to the team of RAR — Rozyar Ayman Rozi 2025</p>
+    </footer>
+
+    <script>
+      const popup = document.getElementById("popup");
+      const hotspotButtons = document.querySelectorAll("button.hotspot");
+
+      // Popup content for each layer
+      const layerContent = {
+        lungs:
+          "<b>Sharks</b>",
+      };
+
+      hotspotButtons.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          const layer = btn.getAttribute("data-layer");
+          popup.innerHTML = layerContent[layer];
+          popup.style.display = "block";
+          event.stopPropagation();
+        });
+      });
+
+      // Clicking outside closes popup
+      document.addEventListener("click", (event) => {
+        if (
+          event.target.classList.contains("hotspot") ||
+          event.target.closest("header") ||
+          event.target.closest("footer") ||
+          event.target.closest(".popup")
+        )
+          return;
+        popup.style.display = "none";
+      });
+    </script>
+  </body>
+</html>
+
+  </body>
+</html>
