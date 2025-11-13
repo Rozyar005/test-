@@ -3,146 +3,80 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dinosaur AR Viewer</title>
-
-    <!-- model-viewer -->
-    <script
-      type="module"
-      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
-    ></script>
-
+    <title>Welcome Page</title>
     <style>
       body {
-        margin: 0;
-        background-color: #000;
-        color: #fff;
-        font-family: Arial, sans-serif;
-        text-align: center;
+        background: #111;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
-        height: 100vh;
-        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        margin: 0;
       }
-
-      header,
-      footer {
-        background-color: #111;
-        padding: 15px;
-        z-index: 2;
+      h1 {
+        margin-bottom: 30px;
+        font-weight: 700;
+        letter-spacing: 1px;
       }
-
-      button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 15px;
+      .btn-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        width: 260px;
+        max-width: 95vw;
+      }
+      .btn-list a {
+        display: block;
+        text-decoration: none;
+        background: #007bff;
+        color: #fff;
         border-radius: 8px;
-        cursor: pointer;
-        margin: 8px 5px;
-        transition: 0.3s;
+        padding: 16px 10px;
+        font-size: 1.1rem;
+        text-align: center;
+        transition: 0.2s background, 0.2s transform, 0.2s box-shadow;
+        box-shadow: 0 2px 8px #003b6f40;
+        font-weight: 600;
       }
-
-      button:hover {
-        background-color: #0099ff;
-        transform: scale(1.05);
-        box-shadow: 0 0 8px #00aaff;
+      .btn-list a:hover {
+        background: #0099ff;
+        transform: scale(1.04);
+        box-shadow: 0 4px 16px #007bff60;
       }
-
-      model-viewer {
-        flex-grow: 1;
-        width: 100%;
-        background-color: #000;
-      }
-
-      /* hotspot styling */
-      .hotspot {
-        background: rgba(0, 194, 255, 0.9);
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        box-shadow: 0 0 8px #00aaff;
-      }
-
-      /* popup text */
-      .popup {
-        position: absolute;
-        top: 32%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.8);
-        padding: 20px 30px;
-        border-radius: 10px;
-        font-size: 1.2rem;
-        border: 1px solid #00c2ff;
-        display: none;
-        z-index: 5;
+      footer {
+        color: #666;
+        margin-top: 60px;
+        font-size: 0.97rem;
       }
     </style>
   </head>
   <body>
-    <header>
-      <h2>🦖 Tap “View in your space” to see the dinosaur in AR</h2>
-      <audio
-        id="narration"
-        src="https://rozyar005.github.io/dinosaur-ar/Dinosaurs.mp3"
-      ></audio>
-      <div>
-        <button onclick="document.getElementById('narration').play()">
-          🔊 Play Narration
-        </button>
-        <button onclick="document.getElementById('narration').pause()">
-          ⏸️ Pause
-        </button>
-      </div>
-    </header>
-
-    <div id="popup" class="popup">
-      "Dinosaurs were ancient reptiles that lived on Earth for over 160 million
-      years and included both plant-eaters and meat-eaters. Birds are the only
-      dinosaurs still alive today." 🦖
+    <h1>Choose a Page</h1>
+    <div class="btn-list">
+      <a href="https://rozyar005.github.io/test-/Circle.html">Circle</a>
+      <a href="https://rozyar005.github.io/test-/CircleKur.html">Circle Kur</a>
+      <a href="https://rozyar005.github.io/test-/Dinosaurs.html">Dinosaurs</a>
+      <a href="https://rozyar005.github.io/test-/Dinosaurskur.html"
+        >Dinosaurs kur</a
+      >
+      <a href="https://rozyar005.github.io/test-/Earth.html">Earth</a>
+      <a href="https://rozyar005.github.io/test-/Earthkur.html">Earth kur</a>
+      <a href="https://rozyar005.github.io/test-/Lungs.html">Lungs</a>
+      <a href="https://rozyar005.github.io/test-/Lungskur.html">Lungs kur</a>
+      <a href="https://rozyar005.github.io/test-/Sharks.html">Sharks</a>
+      <a href="https://rozyar005.github.io/test-/Sharkskur.html">Sharks kur</a>
+      <a href="https://rozyar005.github.io/test-/Solarsystem.html"
+        >Solar System</a
+      >
+      <a href="https://rozyar005.github.io/test-/Solarsystemkur.html"
+        >Solarsystem kur</a
+      >
+      <a href="https://rozyar005.github.io/test-/Suli.html">Suli </a>
+      <a href="https://rozyar005.github.io/test-/Erbil.html"> Erbil</a>
     </div>
-
-    <model-viewer
-      id="dino"
-      src="https://rozyar005.github.io/test-/pbr_velociraptor_animated.glb"
-      alt="Velociraptor Dinosaur"
-      ar
-      ar-modes="webxr scene-viewer quick-look"
-      camera-controls
-      auto-rotate
-      exposure="1"
-    >
-      <!-- hotspot near the head -->
-      <button
-        class="hotspot"
-        slot="hotspot-head"
-        data-position="-0.2 1.7 0.8"
-        data-normal="0 1 0"
-        data-visibility-attribute="visible"
-      ></button>
-    </model-viewer>
-
-    <footer>
-      <p>© All rights reserved to the team of RAR — Rozyar Ayman Rozi 2025</p>
-    </footer>
-
-    <script>
-      const hotspot = document.querySelector(".hotspot");
-      const popup = document.getElementById("popup");
-      const narration = document.getElementById("narration");
-
-      hotspot.addEventListener("click", () => {
-        const isVisible = popup.style.display === "block";
-        popup.style.display = isVisible ? "none" : "block";
-
-        if (isVisible) {
-          narration.pause();
-        } else {
-          narration.play();
-        }
-      });
-    </script>
+    <footer>&copy; 2025 AR in Education</footer>
   </body>
 </html>
