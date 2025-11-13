@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dinosaur AR Viewer</title>
+
+    <!-- model-viewer -->
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+
+    <style>
+      body {
+        margin: 0;
+        background-color: #ffffff;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      header,
+      footer {
+        background-color: #111;
+        padding: 15px;
+        z-index: 2;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 8px 5px;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background-color: #0099ff;
+        transform: scale(1.05);
+        box-shadow: 0 0 8px #00aaff;
+      }
+
+      model-viewer {
+        flex-grow: 1;
+        width: 100%;
+        background-color: #000;
+      }
+
+      /* hotspot styling */
+      .hotspot {
+        background: rgba(0, 194, 255, 0.9);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        box-shadow: 0 0 8px #00aaff;
+      }
+
+      /* popup text */
+      .popup {
+        position: absolute;
+        top: 32%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px 30px;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        border: 1px solid #00c2ff;
+        display: none;
+        z-index: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h2>دەتوانیت بیبینیت لە کامێراکەتەوە</h2>
+      <audio
+        id="narration"
+        src="https://rozyar005.github.io/test-/Dinosaurkur.mp3"
+      ></audio>
+      <div>
+        <button onclick="document.getElementById('narration').play()">
+          🔊 دەستپێکردن
+        </button>
+        <button onclick="document.getElementById('narration').pause()">
+          ⏸️ وەستان
+        </button>
+      </div>
+    </header>
+
+    <div id="popup" class="popup">"منارەی گەورەی هەولێر"</div>
+
+    <model-viewer
+      id="dino"
+      src="https://rozyar005.github.io/test-/the_mudhafaria_minaret_of_erbil.glb"
+      alt="Velociraptor Dinosaur"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      auto-rotate
+      exposure="1"
+    >
+      <!-- hotspot near the head -->
+      <button
+        class="hotspot"
+        slot="hotspot-head"
+        data-position="0 0 0"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+      ></button>
+    </model-viewer>
+
+    <footer>
+      <p>© هەموو مافێکی ئەم بەرهەمە پارێزراوە بە تیمی ڕۆزیار - ڕۆزی - ئەیمەن</p>
+    </footer>
+
+    <script>
+      const hotspot = document.querySelector(".hotspot");
+      const popup = document.getElementById("popup");
+      const narration = document.getElementById("narration");
+
+      hotspot.addEventListener("click", () => {
+        const isVisible = popup.style.display === "block";
+        popup.style.display = isVisible ? "none" : "block";
+
+        if (isVisible) {
+          narration.pause();
+        } else {
+          narration.play();
+        }
+      });
+    </script>
+  </body>
+</html>
