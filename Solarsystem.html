@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar System 3D Viewer</title>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <style>
+      body {
+        margin: 0;
+        background-color: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+      }
+      header,
+      footer {
+        background-color: #111;
+        padding: 15px;
+        z-index: 2;
+      }
+      button.hotspot {
+        background: rgba(0, 194, 255, 0.9);
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        cursor: pointer;
+        box-shadow: 0 0 6px #00aaff;
+        border: none;
+        padding: 0;
+      }
+      button.hotspot:focus {
+        outline: 2px solid #fff;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 8px 5px;
+        transition: 0.3s;
+      }
+      button:hover {
+        background-color: #0099ff;
+        transform: scale(1.05);
+        box-shadow: 0 0 8px #00aaff;
+      }
+      .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.87);
+        padding: 18px 28px;
+        border-radius: 12px;
+        font-size: 1.15rem;
+        border: 1px solid #00c2ff;
+        display: none;
+        z-index: 5;
+      }
+      model-viewer {
+        flex-grow: 1;
+        width: 100%;
+        background-color: #000;
+        min-height: 70vh;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h2>Explore the Solar System in your space!</h2>
+    </header>
+    <audio
+      id="narration"
+      src="https://rozyar005.github.io/test-/Solarsystem.mp3"
+    ></audio>
+    <button id="playBtn">🔊 Play Naration</button>
+    <button id="pauseBtn">⏸️ Pause</button>
+
+    <div id="popup" class="popup"></div>
+
+    <model-viewer
+      id="solar"
+      src="https://rozyar005.github.io/test-/solar_system.glb"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      exposure="1"
+      alt="Solar System 3D Model"
+    >
+      <!-- Hotspots on sun and each planet, adjust X/Y/Z as needed for your model layout -->
+      <button
+        class="hotspot"
+        slot="hotspot-sun"
+        data-position="0 0 0"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-planet="Sun"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-mercury"
+        data-position="0 0 9.8"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-planet="Mercury"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-venus"
+        data-position="0 0 12"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-planet="Venus"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-earth"
+        data-position="0 0 15.5"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-planet="Earth"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-mars"
+        data-position="0 0 20"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-planet="Mars"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-jupiter"
+        data-position="0 0 29"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-planet="Jupiter"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-saturn"
+        data-position="0 0 36"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-planet="Saturn"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-uranus"
+        data-position="0 0 44"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-planet="Uranus"
+      ></button>
+      <button
+        class="hotspot"
+        slot="hotspot-neptune"
+        data-position="0 0 50"
+        data-normal="0 1 0"
+        data-visibility-attribute="visible"
+        data-planet="Neptune"
+      ></button>
+    </model-viewer>
+
+    <footer>
+      <p>© All rights reserved — RAR Team (Rozyar, Rozy, Ayman) 2025</p>
+    </footer>
+
+    <script>
+      const popup = document.getElementById("popup");
+      const hotspotButtons = document.querySelectorAll("button.hotspot");
+
+      // Popup: just the name of each
+      const planetNames = {
+        Sun: "<b>Sun</b>",
+        Mercury: "<b>Mercury</b>",
+        Venus: "<b>Venus</b>",
+        Earth: "<b>Earth</b>",
+        Mars: "<b>Mars</b>",
+        Jupiter: "<b>Jupiter</b>",
+        Saturn: "<b>Saturn</b>",
+        Uranus: "<b>Uranus</b>",
+        Neptune: "<b>Neptune</b>",
+      };
+
+      hotspotButtons.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          const name = btn.getAttribute("data-planet");
+          popup.innerHTML = planetNames[name] || "";
+          popup.style.display = "block";
+          event.stopPropagation();
+        });
+      });
+
+      document.addEventListener("click", (event) => {
+        if (
+          event.target.classList.contains("hotspot") ||
+          event.target.closest("header") ||
+          event.target.closest("footer") ||
+          event.target.closest(".popup")
+        )
+          return;
+        popup.style.display = "none";
+      });
+
+      const narration = document.getElementById("narration");
+      const playBtn = document.getElementById("playBtn");
+      const pauseBtn = document.getElementById("pauseBtn");
+      playBtn.addEventListener("click", (event) => {
+        narration.play();
+        event.stopPropagation();
+      });
+      pauseBtn.addEventListener("click", (event) => {
+        narration.pause();
+        event.stopPropagation();
+      });
+    </script>
+  </body>
+</html>
