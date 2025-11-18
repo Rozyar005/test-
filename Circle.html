@@ -88,6 +88,12 @@
         id="narration"
         src="https://rozyar005.github.io/test-/Circle.mp3"
       ></audio>
+       <!-- NEW BUTTON (Top Right) -->
+  <button id="scrollDownBtn" style="
+      position: absolute;
+      top: 10px;
+      right: 10px;
+  ">⬇️ Go Down</button>
       <div>
         <button id="playBtn">🔊 Play Narration</button>
         <button id="pauseBtn">⏸️ Pause</button>
@@ -162,6 +168,25 @@
         narration.pause();
         event.stopPropagation();
       });
+
+
+
+
+      // Scroll to bottom button
+const scrollDownBtn = document.getElementById("scrollDownBtn");
+
+scrollDownBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: "smooth"
+  });
+});
+
+
+
+
+      
     </script>
   </body>
 </html>
