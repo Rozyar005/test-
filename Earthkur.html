@@ -84,6 +84,12 @@
       id="narration"
       src="https://rozyar005.github.io/test-/Earthkur.mp3"
     ></audio>
+     <!-- NEW BUTTON (Top Right) -->
+  <button id="scrollDownBtn" style="
+      position: absolute;
+      top: 10px;
+      right: 10px;
+  ">⬇️ Go Down</button>
     <button id="playBtn">🔊 دەستپێکردن</button>
     <button id="pauseBtn">⏸️ ڕاوەستان</button>
 
@@ -195,6 +201,20 @@
           event.stopPropagation();
         });
       });
+
+
+
+      // Scroll to bottom button
+const scrollDownBtn = document.getElementById("scrollDownBtn");
+
+scrollDownBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: "smooth"
+  });
+});
+
     </script>
   </body>
 </html>
