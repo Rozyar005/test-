@@ -21,7 +21,6 @@
         display: flex;
         flex-direction: column;
         height: 100vh;
-        overflow: hidden;
       }
 
       header,
@@ -84,16 +83,16 @@
   <body>
     <header>
       <h2>دەتوانیت بیبینیت لە کامێراکەتەوە</h2>
-      <audio
-        id="narration"
-        src="https://rozyar005.github.io/test-/zanyari.mp3"
-      ></audio>
-       <!-- NEW BUTTON (Top Right) -->
-  <button id="scrollDownBtn" style="
+        <button id="scrollDownBtn" style="
       position: absolute;
       top: 10px;
       right: 10px;
   ">⬇️ Go Down</button>
+      <audio
+        id="narration"
+        src="https://rozyar005.github.io/test-/zanyari.mp3"
+      ></audio>
+    
       
       <div>
         <button onclick="document.getElementById('narration').play()">
